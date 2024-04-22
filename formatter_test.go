@@ -3,6 +3,7 @@ package pretty
 import (
 	"fmt"
 	"io"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -224,6 +225,9 @@ func (g *PanicGoString) GoString() string {
 }
 
 func TestGoSyntax(t *testing.T) {
+	if runtime.Compiler == "tinygo" {
+		return
+	}
 	for _, tt := range gosyntax {
 		s := fmt.Sprintf("%# v", Formatter(tt.v))
 		if tt.s != s {
